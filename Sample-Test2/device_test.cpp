@@ -24,7 +24,7 @@ public:
 	const int num_repeat = 5;
 	const int read_val = 1;
 	const int write_val = 2;
-	const long addr = 0x00;
+	const long addr = 0x0A;
 	const long startAddr = 0x00;
 	const long endAddr = 0x04;
 protected:
@@ -68,7 +68,7 @@ TEST_F(TestFixture, WriteFail) {
 
 TEST_F(TestFixture, AppReadAndPrint) {
 	string expected = "";
-	for (long addr_ = startAddr; addr_ < endAddr; addr_++) {
+	for (long addr_ = startAddr; addr_ <= endAddr; addr_++) {
 		int val = read_val + (int)addr_;
 		expected = expected + to_string(val) + "\n";
 		EXPECT_CALL(fmd, read(addr_))
@@ -83,7 +83,7 @@ TEST_F(TestFixture, AppReadAndPrint) {
 }
 
 TEST_F(TestFixture, AppWriteAll) {
-	for (long addr_ = startAddr; addr_ < endAddr; addr_++) {
+	for (long addr_ = startAddr; addr_ <= endAddr; addr_++) {
 		EXPECT_CALL(fmd, read(addr_))
 			.Times(1)
 			.WillOnce(Return(0xFF));

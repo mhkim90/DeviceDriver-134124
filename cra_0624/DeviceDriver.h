@@ -10,6 +10,10 @@ public:
 
 protected:
     FlashMemoryDevice *m_hardware;
+
+private:
     const int num_of_repeat = 5;
     const int sleep_time = 100;
+
+    bool isMemoryEmpty(long address);
 };
