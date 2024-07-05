@@ -10,6 +10,11 @@ public:
     ReadFailException(string msg) : exception{ msg.c_str()} {}
 };
 
+class WriteFailException : public exception {
+public:
+    WriteFailException(string msg) : exception{ msg.c_str() } {}
+};
+
 DeviceDriver::DeviceDriver(FlashMemoryDevice *hardware) : m_hardware(hardware)
 {}
 
@@ -30,6 +35,10 @@ int DeviceDriver::read(long address)
 
 void DeviceDriver::write(long address, int data)
 {
-    // TODO: implement this method
-    m_hardware->write(address, (unsigned char)data);
+    if (m_hardware->read(address) == 0xFF) {
+        m_hardware->write(address, (unsigned char)data);
+    }
+    else {
+        throw WriteFailException("memory write failure");
+    }
 }
