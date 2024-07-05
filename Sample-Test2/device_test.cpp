@@ -20,18 +20,25 @@ public:
 	DeviceDriver driver{ &fmd };
 
 	const int num_repeat = 5;
+	const int read_val = 1;
+	const long addr = 0x00;
 protected:
 	void SetUp() override {
 
 	}
 };
 
-TEST_F(TestFixture, SameResult) {
-	long addr = 0x00;
+TEST_F(TestFixture, ReadSucess) {
 	EXPECT_CALL(fmd, read(addr))
 		.Times(num_repeat)
-		.WillRepeatedly(Return(1));
-	for (int i = 0; i < num_repeat; i++) {
-		driver.read(addr);
-	}
+		.WillRepeatedly(Return(read_val));
+	EXPECT_EQ(driver.read(addr), read_val);
+}
+
+TEST_F(TestFixture, ReadFail) {
+	EXPECT_CALL(fmd, read(addr))
+		.Times(2)
+		.WillOnce(Return(read_val))
+		.WillOnce(Return(read_val + 1));
+	EXPECT_THROW(driver.read(addr), ReadFailException);
 }
