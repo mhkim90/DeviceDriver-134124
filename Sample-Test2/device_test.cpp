@@ -1,6 +1,7 @@
 ﻿#include "gtest/gtest.h"
 #include "gmock/gmock.h"
 #include "../cra_0624/DeviceDriver.cpp"
+#include "../cra_0624/App.cpp"
 #include <string>
 #include <vector>
 #include <exception>
@@ -18,6 +19,7 @@ class TestFixture : public ::testing::Test {
 public:
 	MockFMD fmd;
 	DeviceDriver driver{ &fmd };
+	App app{ &driver };
 
 	const int num_repeat = 5;
 	const int read_val = 1;
